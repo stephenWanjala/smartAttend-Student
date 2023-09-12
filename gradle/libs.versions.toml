@@ -1,5 +1,5 @@
 [versions]
-agp = "8.3.0-alpha01"
+agp = "8.3.0-alpha03"
 kotlin = "1.9.10"
 core-ktx = "1.12.0"
 junit = "4.13.2"
@@ -8,7 +8,6 @@ espresso-core = "3.5.1"
 lifecycle-runtime-ktx = "2.6.2"
 activity-compose = "1.7.2"
 compose-bom = "2023.09.00"
-
 
 
 
@@ -30,9 +29,9 @@ ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 material3 = { group = "androidx.compose.material3", name = "material3" }
 
 
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-
 
 
