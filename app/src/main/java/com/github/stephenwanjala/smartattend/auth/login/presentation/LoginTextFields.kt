@@ -97,7 +97,7 @@ fun LoginTextFields(
                             InputTextField(
                                 textValue = state.userName,
                                 labelText = "UserName",
-                                onValueChange = { viewModel.onEvent(LoginEvent.EnteredEmail(it)) },
+                                onValueChange = { viewModel.onEvent(LoginEvent.EnteredUserName(it)) },
                                 modifier = Modifier.weight(0.5f),
                                 keyboardOptions = KeyboardOptions(
                                     keyboardType = KeyboardType.Text,
@@ -145,10 +145,7 @@ fun LoginTextFields(
                         ATextButton(text = stringResource(id = R.string.sign_in),
                             onClick = onClickLogin,
                             modifier = Modifier.fillMaxWidth(0.6f),
-                            buttonEnabled = {
-
-                                state.password.isNotBlank() && ((state.password.length >= 8) && state.userName.isNotBlank())
-                            }
+                            buttonEnabled = { state.isLoginButtonEnabled }
 
                         )
 
@@ -186,7 +183,7 @@ fun LoginTextFields(
                         InputTextField(
                             textValue = state.userName,
                             labelText = "UserName",
-                            onValueChange = { viewModel.onEvent(LoginEvent.EnteredEmail(it)) },
+                            onValueChange = { viewModel.onEvent(LoginEvent.EnteredUserName(it)) },
 
                             )
 
@@ -233,10 +230,7 @@ fun LoginTextFields(
                             text = buttonLabel,
                             onClick = onClickLogin,
                             modifier = Modifier,
-                            buttonEnabled =
-                            {
-                                state.password.isNotBlank() && ((state.password.length >= 8) && state.userName.isNotBlank())
-                            }
+                            buttonEnabled = { state.isLoginButtonEnabled }
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                     }

@@ -16,12 +16,28 @@ class LoginViewModel @Inject constructor() : ViewModel() {
 
     fun onEvent(event: LoginEvent) {
         when (event) {
-            is LoginEvent.EnteredEmail -> {
+            is LoginEvent.EnteredUserName -> {
                 _state.update { it.copy(userName = event.value) }
+                _state.update {
+                    it.copy(
+                        isLoginButtonEnabled = (checkUserNameAndPassword(
+                            userName = state.value.userName,
+                            password = state.value.password
+                        ) && checkValidRegNumber(state.value.userName))
+                    )
+                }
             }
 
             is LoginEvent.EnteredPassword -> {
                 _state.update { it.copy(password = event.value) }
+                _state.update {
+                    it.copy(
+                        isLoginButtonEnabled = (checkUserNameAndPassword(
+                            userName = state.value.userName,
+                            password = state.value.password
+                        ) && checkValidRegNumber(state.value.userName))
+                    )
+                }
             }
 
             LoginEvent.TogglePasswordVisibility -> {
@@ -33,4 +49,15 @@ class LoginViewModel @Inject constructor() : ViewModel() {
             }
         }
     }
+
+
+    private fun checkValidRegNumber(regNo: String): Boolean {
+        val regex = Regex("""^([A-Za-z]+)\/(\d{5})\/(\d{3})$""")
+        return regex.matches(regNo)
+    }
+
+    private fun checkUserNameAndPassword(userName: String, password: String): Boolean =
+        userName.isNotBlank() && userName.isNotEmpty()
+                && password.isNotBlank() && password.isNotEmpty()
+                && password.length >= 8
 }
