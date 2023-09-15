@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Smart Attend</string>
+    <string name="error_unknown">Unknown Error Happened</string>
+    <string name="sign_in_welcome_text">Hello And Welcome Back</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="sign_in">Sign In</string>
 </resources>

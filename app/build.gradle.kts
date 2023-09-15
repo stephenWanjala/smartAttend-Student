@@ -77,6 +77,7 @@ dependencies {
     val navVersion = "2.7.1"
     val coroutinesVersion ="1.7.1"
     val destinationsVersion ="1.9.51"
+    val lottieVersion ="6.1.0"
 
     //    coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
@@ -93,6 +94,7 @@ dependencies {
 
     //destinations lib
     implementation("io.github.raamcosta.compose-destinations:core:$destinationsVersion")
+    implementation("io.github.raamcosta.compose-destinations:animations-core:$destinationsVersion")
     ksp("io.github.raamcosta.compose-destinations:ksp:$destinationsVersion")
 
     ksp("com.google.dagger:hilt-compiler:2.48")
@@ -101,6 +103,9 @@ dependencies {
     ksp ("androidx.hilt:hilt-compiler:1.0.0")
 
     implementation ("com.google.accompanist:accompanist-permissions:0.30.1")
+
+    //lottie
+    implementation("com.airbnb.android:lottie-compose:$lottieVersion")
 
 
 
