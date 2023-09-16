@@ -21,6 +21,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
@@ -96,13 +97,15 @@ fun LoginTextFields(
                         ) {
                             InputTextField(
                                 textValue = state.userName,
-                                labelText = "UserName",
+                                labelText = "RegNumber",
                                 onValueChange = { viewModel.onEvent(LoginEvent.EnteredUserName(it)) },
                                 modifier = Modifier.weight(0.5f),
                                 keyboardOptions = KeyboardOptions(
                                     keyboardType = KeyboardType.Text,
                                     imeAction = ImeAction.Next
-                                )
+                                ),
+                                isError = state.userNameError != null,
+                                supportText = state.userNameError,
 
                             )
 
@@ -119,7 +122,9 @@ fun LoginTextFields(
                                 },
                                 keyboardOptions = KeyboardOptions(
                                     keyboardType = KeyboardType.Password, imeAction = ImeAction.Done
-                                )
+                                ),
+                                isError =state.passwordError !=null ,
+                                supportText = state.passwordError,
 
                             )
 
@@ -182,8 +187,10 @@ fun LoginTextFields(
 
                         InputTextField(
                             textValue = state.userName,
-                            labelText = "UserName",
+                            labelText = "RegNumber",
                             onValueChange = { viewModel.onEvent(LoginEvent.EnteredUserName(it)) },
+                            isError = state.userNameError != null,
+                            supportText = state.userNameError,
 
                             )
 
@@ -199,6 +206,8 @@ fun LoginTextFields(
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Password, imeAction = ImeAction.Done
                             ),
+                            isError = state.passwordError != null,
+                            supportText = state.passwordError,
 
                             )
 

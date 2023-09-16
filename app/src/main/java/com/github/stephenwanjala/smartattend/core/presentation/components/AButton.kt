@@ -76,7 +76,6 @@ fun ATextButton(
         modifier = modifier
             .fillMaxWidth()
             .padding(start = 32.dp, end = 32.dp, bottom = 8.dp),
-//            .clip(RoundedCornerShape(10.dp)),
         elevation = ButtonDefaults.buttonElevation(0.dp),
         enabled = buttonEnabled(),
         colors = ButtonDefaults.buttonColors(contentColor = enabledColor),

@@ -15,6 +15,7 @@ class LoginViewModel @Inject constructor() : ViewModel() {
     val state = _state.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), LoginUiState())
 
     fun onEvent(event: LoginEvent) {
+
         when (event) {
             is LoginEvent.EnteredUserName -> {
                 _state.update { it.copy(userName = event.value) }
@@ -23,7 +24,12 @@ class LoginViewModel @Inject constructor() : ViewModel() {
                         isLoginButtonEnabled = (checkUserNameAndPassword(
                             userName = state.value.userName,
                             password = state.value.password
-                        ) && checkValidRegNumber(state.value.userName))
+                        ) && checkValidRegNumber(state.value.userName)),
+                        userNameError = if (checkValidRegNumber(state.value.userName)) {
+                            null
+                        } else {
+                            "Invalid Registration Number"
+                        }
                     )
                 }
             }
@@ -35,9 +41,16 @@ class LoginViewModel @Inject constructor() : ViewModel() {
                         isLoginButtonEnabled = (checkUserNameAndPassword(
                             userName = state.value.userName,
                             password = state.value.password
-                        ) && checkValidRegNumber(state.value.userName))
+                        ) && checkValidRegNumber(state.value.userName)),
+                        passwordError = if (shorPassword(state.value.password)) {
+                            "Password is too short"
+                        } else {
+                            null
+                        }
                     )
+
                 }
+
             }
 
             LoginEvent.TogglePasswordVisibility -> {
@@ -61,3 +74,44 @@ class LoginViewModel @Inject constructor() : ViewModel() {
                 && password.isNotBlank() && password.isNotEmpty()
                 && password.length >= 8
 }
+
+fun validatePassword(password: String): List<String> {
+    val errors = mutableListOf<String>()
+
+    val digitRegex = Regex("(?=.*[0-9])")
+    val lowercaseRegex = Regex("(?=.*[a-z])")
+    val uppercaseRegex = Regex("(?=.*[A-Z])")
+    val specialCharRegex = Regex("(?=.*\\W)")
+    val spaceRegex = Regex("\\s")
+    val lengthRegex = Regex(".{8,16}")
+
+    if (!digitRegex.containsMatchIn(password)) {
+        errors.add("At least one digit (0-9) is required.")
+    }
+
+    if (!lowercaseRegex.containsMatchIn(password)) {
+        errors.add("At least one lowercase letter (a-z) is required.")
+    }
+
+    if (!uppercaseRegex.containsMatchIn(password)) {
+        errors.add("At least one uppercase letter (A-Z) is required.")
+    }
+
+    if (!specialCharRegex.containsMatchIn(password)) {
+        errors.add("At least one special character is required.")
+    }
+
+    if (spaceRegex.containsMatchIn(password)) {
+        errors.add("Whitespace is not allowed.")
+    }
+
+    if (!lengthRegex.matches(password)) {
+        errors.add("Password length should be between 8 and 16 characters.")
+    }
+
+    return errors
+}
+
+
+private fun shorPassword(password: String): Boolean = password.length < 8
+

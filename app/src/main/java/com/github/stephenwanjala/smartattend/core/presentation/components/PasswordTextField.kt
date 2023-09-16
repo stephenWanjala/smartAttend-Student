@@ -42,7 +42,9 @@ fun PasswordTextField(
         imeAction = ImeAction.Next,
         keyboardType = KeyboardType.Password
     ),
-    onSendAction: (() -> Unit?)? = null
+    onSendAction: (() -> Unit?)? = null,
+    isError: Boolean = false,
+    supportText: String? = null
 
 ) {
     var passwordVisibility: Boolean by remember { mutableStateOf(false) }
@@ -54,7 +56,7 @@ fun PasswordTextField(
     ) {
         val keyBoardController = LocalSoftwareKeyboardController.current
         OutlinedTextField(
-            value = textValue.take(if (textValue.length >= 10) 10 else textValue.length),
+            value = textValue.take(if (textValue.length >= 16) 16 else textValue.length),
             onValueChange = onValueChange,
             keyboardOptions = keyboardOptions,
             label = { Text(text = labelText) },
@@ -79,21 +81,17 @@ fun PasswordTextField(
                     onSendAction?.let { it() }
                 }
             ),
-//            colors = TextFieldDefaults.colors(
-//                focusedContainerColor = containerColor,
-//                unfocusedContainerColor = containerColor,
-//                disabledContainerColor = containerColor,
-//                unfocusedIndicatorColor = MaterialTheme.colorScheme.background,
-//                unfocusedLabelColor = MaterialTheme.colorScheme.background,
-////                placeholderColor = MaterialTheme.colorScheme.background,
-////                leadingIconColor = MaterialTheme.colors.background.copy(alpha = 0.9f),
-////                trailingIconColor = MaterialTheme.colors.background.copy(alpha = 0.9f)
-//            ),
             visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(
                 '*'
             ),
             maxLines = maxLines,
-            shape = RoundedCornerShape(10.dp)
+            shape = RoundedCornerShape(10.dp),
+            isError = isError,
+            supportingText = {
+                supportText?.let {text->
+                    if (isError) Text(text = text)
+                }
+            }
 
         )
 
@@ -114,10 +112,12 @@ fun PasswordTextField(
     onValueChange: (String) -> Unit,
     keyboardOptions: KeyboardOptions = KeyboardOptions(
         imeAction = ImeAction.Next,
-        keyboardType = KeyboardType.Email,
+        keyboardType = KeyboardType.Password,
 
         ),
-    onSendAction: (() -> Unit?)? = null
+    onSendAction: (() -> Unit?)? = null,
+    isError: Boolean = false,
+    supportText: String? = null
 
 ) {
     var passwordVisibility: Boolean by remember { mutableStateOf(false) }
@@ -160,7 +160,13 @@ fun PasswordTextField(
             ),
             maxLines = maxLines,
             shape = RoundedCornerShape(10.dp),
-            modifier = passwordModifier
+            modifier = passwordModifier,
+            isError = isError,
+            supportingText = {
+                supportText?.let { text ->
+                    if (isError) Text(text = text)
+                }
+            }
 
         )
 

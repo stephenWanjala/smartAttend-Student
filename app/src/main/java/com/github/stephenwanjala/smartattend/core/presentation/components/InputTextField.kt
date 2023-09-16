@@ -32,7 +32,9 @@ fun InputTextField(
         keyboardType = KeyboardType.Email
     ),
     visualTransformation: VisualTransformation = VisualTransformation.None,
-    onSendAction: (() -> Unit?)? = null
+    onSendAction: (() -> Unit?)? = null,
+    isError:Boolean =false,
+    supportText:String?=null
 
 ) {
     Box(
@@ -47,14 +49,6 @@ fun InputTextField(
             onValueChange = onValueChange,
             keyboardOptions = keyboardOptions,
             label = { Text(text = labelText) },
-//            trailingIcon = {
-//                IconButton(onClick = { /*TODO*/ }) {
-//                    if (trailingIcon != null) {
-//                        Icon(imageVector = trailingIcon, contentDescription = null)
-//                    }
-//                }
-//            },
-//
             placeholder = {
                 Text(text = labelText)
             },
@@ -69,7 +63,13 @@ fun InputTextField(
             ),
             visualTransformation = visualTransformation,
             maxLines = maxLines,
-            shape = RoundedCornerShape(10.dp)
+            shape = RoundedCornerShape(10.dp),
+            isError = isError,
+            supportingText = {
+                supportText?.let {text->
+                    if (isError) Text(text = text)
+                }
+            }
         )
 
     }
