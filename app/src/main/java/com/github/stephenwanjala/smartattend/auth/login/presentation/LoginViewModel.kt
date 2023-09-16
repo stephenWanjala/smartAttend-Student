@@ -65,8 +65,8 @@ class LoginViewModel @Inject constructor() : ViewModel() {
 
 
     private fun checkValidRegNumber(regNo: String): Boolean {
-        val regex = Regex("""^([A-Za-z]+)\/(\d{5})\/(\d{3})$""")
-        return regex.matches(regNo)
+        val regex = Regex("""^([A-Za-z]{3})\/(?!0{5})(\d{5})\/(\d{3})$""")
+        return regex.matchEntire(regNo) != null
     }
 
     private fun checkUserNameAndPassword(userName: String, password: String): Boolean =
