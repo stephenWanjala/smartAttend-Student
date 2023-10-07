@@ -1,5 +1,6 @@
 package com.github.stephenwanjala.smartattend
 
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -7,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.github.stephenwanjala.smartattend.auth.login.presentation.components.NavGraphs
 import com.github.stephenwanjala.smartattend.ui.theme.SmartAttendTheme
 import com.ramcosta.composedestinations.DestinationsNavHost
 import dagger.hilt.android.AndroidEntryPoint

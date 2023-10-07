@@ -15,7 +15,6 @@ import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -30,8 +29,10 @@ import com.github.stephenwanjala.smartattend.R
 import com.github.stephenwanjala.smartattend.auth.login.presentation.LoginEvent
 import com.github.stephenwanjala.smartattend.auth.login.presentation.LoginTextFields
 import com.github.stephenwanjala.smartattend.auth.login.presentation.LoginViewModel
-import com.github.stephenwanjala.smartattend.auth.login.presentation.components.destinations.LoginScreenDestination
 import com.github.stephenwanjala.smartattend.core.presentation.components.LoadingDialog
+import com.github.stephenwanjala.smartattend.destinations.ForgotPasswordScreenDestination
+import com.github.stephenwanjala.smartattend.destinations.HomeScreenDestination
+import com.github.stephenwanjala.smartattend.home.presentation.HomeScreen
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -95,9 +96,11 @@ fun LoginScreen(
                             LoginTextFields(
                                 buttonLabel = stringResource(id = R.string.sign_in),
                                 onForgetPassword = {
+                                    navigator.navigate(ForgotPasswordScreenDestination)
                                 },
                                 viewModel = viewModel,
-                                onClickLogin = { viewModel.onEvent(LoginEvent.Login) }
+                                onClickLogin = { viewModel.onEvent(LoginEvent.Login)
+                                navigator.navigate(HomeScreenDestination)}
                             )
 
                         }

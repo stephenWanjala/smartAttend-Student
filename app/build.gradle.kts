@@ -63,8 +63,8 @@ dependencies {
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
-    implementation ("androidx.compose.material:material-icons-core")
-    implementation ("androidx.compose.material:material-icons-extended")
+    implementation (libs.androidx.material.icons.core)
+    implementation (libs.androidx.material.icons.extended)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -73,39 +73,35 @@ dependencies {
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
 
-    val lifecycleVersion = "2.6.1"
-    val navVersion = "2.7.1"
-    val coroutinesVersion ="1.7.1"
-    val destinationsVersion ="1.9.51"
-    val lottieVersion ="6.1.0"
+
 
     //    coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
+    implementation(libs.kotlinx.coroutines.android)
 
 //    navigation
-    implementation("androidx.navigation:navigation-compose:$navVersion")
+    implementation(libs.androidx.navigation.compose)
 
 // ViewModel
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
+    implementation (libs.androidx.lifecycle.viewmodel.ktx)
 // ViewModel utilities for Compose
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion")
+    implementation (libs.androidx.lifecycle.viewmodel.compose)
 
 
 
     //destinations lib
-    implementation("io.github.raamcosta.compose-destinations:core:$destinationsVersion")
-    implementation("io.github.raamcosta.compose-destinations:animations-core:$destinationsVersion")
-    ksp("io.github.raamcosta.compose-destinations:ksp:$destinationsVersion")
+    implementation(libs.destinations.core)
+    implementation(libs.destinations.animations.core)
+    ksp(libs.ksp)
 
-    ksp("com.google.dagger:hilt-compiler:2.48")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
-    implementation("com.google.dagger:hilt-android:2.48")
-    ksp ("androidx.hilt:hilt-compiler:1.0.0")
+    ksp(libs.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.hilt.android)
+    ksp (libs.androidx.hilt.compiler)
 
-    implementation ("com.google.accompanist:accompanist-permissions:0.30.1")
+    implementation (libs.accompanist.permissions)
 
     //lottie
-    implementation("com.airbnb.android:lottie-compose:$lottieVersion")
+    implementation(libs.lottie.compose)
 
 
 
