@@ -12,11 +12,11 @@ buildscript {
         // in the individual module build.gradle files
     }
 }
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
+
 plugins {
     alias(libs.plugins.androidApplication) apply false
     alias(libs.plugins.kotlinAndroid) apply false
     id("com.google.dagger.hilt.android") version "2.49" apply false
     id("com.google.devtools.ksp") version "1.9.20-Beta2-1.0.13" apply false
 }
-true // Needed to make the Suppress annotation work for the plugins block
+

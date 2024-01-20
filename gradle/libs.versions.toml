@@ -1,6 +1,6 @@
 [versions]
 accompanistPermissions = "0.30.1"
-agp = "8.3.0-alpha18"
+agp = "8.4.0-alpha04"
 androidx-hiltCompiler = "1.1.0"
 coroutinesVersion = "1.7.3"
 destinationsVersion = "1.9.53"
