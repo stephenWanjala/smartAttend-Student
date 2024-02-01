@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.kotlinAndroid)
     id("dagger.hilt.android.plugin")
     id("com.google.devtools.ksp")
-    id ("kotlin-parcelize")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -63,8 +63,8 @@ dependencies {
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
-    implementation (libs.androidx.material.icons.core)
-    implementation (libs.androidx.material.icons.extended)
+    implementation(libs.androidx.material.icons.core)
+    implementation(libs.androidx.material.icons.extended)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -74,7 +74,6 @@ dependencies {
     debugImplementation(libs.ui.test.manifest)
 
 
-
     //    coroutines
     implementation(libs.kotlinx.coroutines.android)
 
@@ -82,10 +81,11 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
 
 // ViewModel
-    implementation (libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
 // ViewModel utilities for Compose
-    implementation (libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
 
+    implementation(libs.androidx.core.splashscreen)
 
 
     //destinations lib
@@ -96,13 +96,25 @@ dependencies {
     ksp(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)
-    ksp (libs.androidx.hilt.compiler)
+    ksp(libs.androidx.hilt.compiler)
 
-    implementation (libs.accompanist.permissions)
+    implementation(libs.accompanist.permissions)
+
+    //Retrofit-
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
+    implementation(libs.gson)
+    implementation(libs.accompanist.permissions.v0251)
+
+    //    datastore
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.datastore.core)
+
+    implementation(libs.play.services.location)
 
     //lottie
     implementation(libs.lottie.compose)
-
 
 
 }
