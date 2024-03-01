@@ -14,5 +14,6 @@ interface SmartAttendPreferences {
     companion object{
         val ACCESS_TOKEN = stringPreferencesKey("access_token")
         val REFRESH_TOKEN = stringPreferencesKey("refresh_token")
+        val SMART_ATTENT_PREFERENCES_NAME = "smart_attend_preferences"
     }
 }

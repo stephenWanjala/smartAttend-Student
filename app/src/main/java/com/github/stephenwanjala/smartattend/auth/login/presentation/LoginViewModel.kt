@@ -10,7 +10,9 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor() : ViewModel() {
+class LoginViewModel @Inject constructor(
+
+) : ViewModel() {
     private val _state = MutableStateFlow(LoginUiState())
     val state = _state.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), LoginUiState())
 

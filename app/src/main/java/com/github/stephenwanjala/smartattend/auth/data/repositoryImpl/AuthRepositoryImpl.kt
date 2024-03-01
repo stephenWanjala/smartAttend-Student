@@ -12,8 +12,12 @@ import com.github.stephenwanjala.smartattend.preferences.domain.SmartAttendPrefe
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
+import okhttp3.internal.http2.Http2
+import retrofit2.Response
+import retrofit2.http.HTTP
+import javax.inject.Inject
 
-class AuthRepositoryImpl(
+class AuthRepositoryImpl @Inject constructor(
     private val authApi: AuthApi,
     private val preferences: SmartAttendPreferences
 ) : AuthRepository {
@@ -30,7 +34,8 @@ class AuthRepositoryImpl(
                         uiText = UiText.DynamicString(
                             e.localizedMessage ?: "Error Occurred"
                         )
-                    ))
+                    )
+                )
             }
         }
     }
@@ -39,7 +44,7 @@ class AuthRepositoryImpl(
         return flow {
             emit(Resource.Loading())
             try {
-                authApi.logout(token.refresh, token.access)
+               authApi.logout(token.refresh, token.access)
                 preferences.deleteToken()
                 emit(Resource.Success(Unit))
             } catch (e: Exception) {
@@ -48,7 +53,8 @@ class AuthRepositoryImpl(
                         uiText = UiText.DynamicString(
                             e.localizedMessage ?: "Error Occurred"
                         )
-                    ))
+                    )
+                )
             }
         }.catch { e ->
             emit(
@@ -56,22 +62,36 @@ class AuthRepositoryImpl(
                     uiText = UiText.DynamicString(
                         e.localizedMessage ?: "Error Occurred"
                     )
-                ))}
+                )
+            )
+        }
     }
 
     override suspend fun tokenVerify(refreshToken: String): Flow<Resource<Unit>> {
         return flow {
             emit(Resource.Loading())
             try {
-                authApi.verify(refreshToken)
-                emit(Resource.Success(Unit))
+                val response = authApi.verify(refreshToken)
+                if (response.isSuccessful && response.code() == 200) {
+
+                    emit(Resource.Success(Unit))
+                } else {
+                    emit(
+                        Resource.Error(
+                            uiText = UiText.DynamicString(
+                                value = response.errorBody()?.string() ?: "Invalid Token"
+                            )
+                        )
+                    )
+                }
             } catch (e: Exception) {
                 emit(
                     Resource.Error(
                         uiText = UiText.DynamicString(
                             e.localizedMessage ?: "Error Occurred"
                         )
-                    ))
+                    )
+                )
             }
         }.catch { e ->
             emit(
@@ -79,7 +99,9 @@ class AuthRepositoryImpl(
                     uiText = UiText.DynamicString(
                         e.localizedMessage ?: "Error Occurred"
                     )
-                ))}
+                )
+            )
+        }
     }
 
     override suspend fun refreshToken(refreshToken: String): Flow<Resource<AccessToken>> {
@@ -96,7 +118,8 @@ class AuthRepositoryImpl(
                         uiText = UiText.DynamicString(
                             e.localizedMessage ?: "Error Occurred"
                         )
-                    ))
+                    )
+                )
             }
         }.catch { e ->
             emit(
@@ -104,6 +127,8 @@ class AuthRepositoryImpl(
                     uiText = UiText.DynamicString(
                         e.localizedMessage ?: "Error Occurred"
                     )
-                ))}
+                )
+            )
+        }
     }
 }
