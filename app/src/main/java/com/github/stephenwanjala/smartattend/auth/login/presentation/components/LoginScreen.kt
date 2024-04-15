@@ -32,9 +32,10 @@ import com.github.stephenwanjala.smartattend.auth.login.presentation.LoginViewMo
 import com.github.stephenwanjala.smartattend.core.presentation.components.LoadingDialog
 import com.github.stephenwanjala.smartattend.destinations.ForgotPasswordScreenDestination
 import com.github.stephenwanjala.smartattend.destinations.HomeScreenDestination
-import com.github.stephenwanjala.smartattend.home.presentation.HomeScreen
+import com.github.stephenwanjala.smartattend.destinations.LoginScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.navigation.popUpTo
 
 @Composable
 @Destination(start = true)
@@ -47,11 +48,21 @@ fun LoginScreen(
         color = MaterialTheme.colorScheme.background
     ) {
 
-        val state = viewModel.state.collectAsState()
-        val snackbarHostState = remember { SnackbarHostState() }
-        LaunchedEffect(state) {
-            state.value.login?.let {
 
+        val state = viewModel.state.collectAsState()
+        print("The state is $state\n")
+
+        val snackbarHostState = remember { SnackbarHostState() }
+
+        LaunchedEffect(key1 = state.value.login) {
+            print("The state is $state\n")
+            state.value.login?.let { authResponse ->
+                println("The AuthResponse is $authResponse\n")
+                navigator.navigate(HomeScreenDestination) {
+                    popUpTo(LoginScreenDestination) {
+                        inclusive = true
+                    }
+                }
             }
         }
 
@@ -61,7 +72,7 @@ fun LoginScreen(
                 snackbarHostState.showSnackbar(
                     message = uiText.asString(context),
                     actionLabel = "Dismiss",
-                    duration = SnackbarDuration.Short
+                    duration = SnackbarDuration.Long
                 )
             }
         }
@@ -87,7 +98,6 @@ fun LoginScreen(
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth(),
-//                    .align(Alignment.Center),
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
@@ -96,15 +106,23 @@ fun LoginScreen(
                             LoginTextFields(
                                 buttonLabel = stringResource(id = R.string.sign_in),
                                 onForgetPassword = {
-                                    navigator.navigate(ForgotPasswordScreenDestination)
+                                    navigator.navigate(ForgotPasswordScreenDestination) {
+                                        popUpTo(LoginScreenDestination) {
+                                            inclusive = true
+
+                                        }
+                                    }
                                 },
                                 viewModel = viewModel,
-                                onClickLogin = { viewModel.onEvent(LoginEvent.Login)
-                                navigator.navigate(HomeScreenDestination)}
+                                onClickLogin = {
+                                    viewModel.onEvent(LoginEvent.Login)
+                                    print("The state is $state\n")
+                                }
                             )
 
                         }
                     }
+
                     AnimatedVisibility(
                         visible = (state.value.isLoading), modifier = Modifier.align(
                             Alignment.Center

@@ -4,17 +4,18 @@ import com.github.stephenwanjala.smartattend.auth.data.network.AuthApi
 import com.github.stephenwanjala.smartattend.auth.login.domain.model.AuthRequest
 import com.github.stephenwanjala.smartattend.auth.login.domain.model.AuthResponse
 import com.github.stephenwanjala.smartattend.auth.login.domain.model.Token
+import com.github.stephenwanjala.smartattend.auth.login.domain.model.TokenData
 import com.github.stephenwanjala.smartattend.auth.login.domain.repository.AccessToken
 import com.github.stephenwanjala.smartattend.auth.login.domain.repository.AuthRepository
 import com.github.stephenwanjala.smartattend.core.util.Resource
 import com.github.stephenwanjala.smartattend.core.util.UiText
 import com.github.stephenwanjala.smartattend.preferences.domain.SmartAttendPreferences
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flow
-import okhttp3.internal.http2.Http2
-import retrofit2.Response
-import retrofit2.http.HTTP
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
@@ -24,38 +25,38 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun login(authRequest: AuthRequest): Flow<Resource<AuthResponse>> {
         return flow {
             emit(Resource.Loading())
-            try {
-                val response = authApi.login(authRequest)
-                preferences.saveAToken(response.token)
-                emit(Resource.Success(response))
-            } catch (e: Exception) {
-                emit(
-                    Resource.Error(
-                        uiText = UiText.DynamicString(
-                            e.localizedMessage ?: "Error Occurred"
-                        )
+
+            val response = authApi.login(authRequest)
+            preferences.saveAToken(
+                token = TokenData(
+                    access = response.access,
+                    refresh = response.refresh,
+                    user_id = response.user_id,
+                    reg_number = response.reg_number
+
+                )
+            )
+            emit(Resource.Success(response))
+        }.catch { e ->
+            emit(
+                Resource.Error(
+                    uiText = UiText.DynamicString(
+                        e.localizedMessage ?: "Error Occurred"
                     )
                 )
-            }
-        }
+            )
+        }.flowOn(Dispatchers.IO)
     }
+
 
     override suspend fun logout(token: Token): Flow<Resource<Unit>> {
         return flow {
             emit(Resource.Loading())
-            try {
-               authApi.logout(token.refresh, token.access)
-                preferences.deleteToken()
-                emit(Resource.Success(Unit))
-            } catch (e: Exception) {
-                emit(
-                    Resource.Error(
-                        uiText = UiText.DynamicString(
-                            e.localizedMessage ?: "Error Occurred"
-                        )
-                    )
-                )
-            }
+
+            authApi.logout(token.refresh, token.access)
+            preferences.deleteToken()
+            emit(Resource.Success(Unit))
+
         }.catch { e ->
             emit(
                 Resource.Error(
@@ -67,32 +68,33 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun tokenVerify(refreshToken: String): Flow<Resource<Unit>> {
-        return flow {
+    override suspend fun tokenVerify(): Flow<Resource<TokenData>> {
+        return flow<Resource<TokenData>> {
             emit(Resource.Loading())
-            try {
-                val response = authApi.verify(refreshToken)
-                if (response.isSuccessful && response.code() == 200) {
+            preferences.getToken().collectLatest { data ->
+                data?.let { tokenData ->
+                    tokenData.refresh.let { refreshToken ->
+                        if (refreshToken.isNotBlank() && refreshToken.isNotEmpty()) {
+                            val response = authApi.verify(refreshToken)
+                            if (response.isSuccessful && response.code() == 200) {
 
-                    emit(Resource.Success(Unit))
-                } else {
-                    emit(
-                        Resource.Error(
-                            uiText = UiText.DynamicString(
-                                value = response.errorBody()?.string() ?: "Invalid Token"
-                            )
-                        )
-                    )
+                                emit(Resource.Success(data))
+                            } else {
+                                emit(
+                                    Resource.Error(
+                                        uiText = UiText.DynamicString(
+                                            response.errorBody()?.string() ?: "Invalid Token"
+                                        )
+                                    )
+                                )
+                            }
+                        }
+
+                    }
                 }
-            } catch (e: Exception) {
-                emit(
-                    Resource.Error(
-                        uiText = UiText.DynamicString(
-                            e.localizedMessage ?: "Error Occurred"
-                        )
-                    )
-                )
             }
+
+
         }.catch { e ->
             emit(
                 Resource.Error(
@@ -110,7 +112,14 @@ class AuthRepositoryImpl @Inject constructor(
             try {
                 val response = authApi.refreshToken(refreshToken)
                 preferences.deleteToken()
-                preferences.saveAToken(Token(access = response, refresh = refreshToken))
+                preferences.saveAToken(
+                    TokenData(
+                        access = response,
+                        refresh = refreshToken,
+                        user_id = 0,
+                        reg_number = ""
+                    )
+                )
                 emit(Resource.Success(response))
             } catch (e: Exception) {
                 emit(
@@ -131,4 +140,6 @@ class AuthRepositoryImpl @Inject constructor(
             )
         }
     }
+
+
 }

@@ -12,7 +12,6 @@ buildscript {
         // in the individual module build.gradle files
     }
 }
-
 plugins {
     alias(libs.plugins.androidApplication) apply false
     alias(libs.plugins.kotlinAndroid) apply false

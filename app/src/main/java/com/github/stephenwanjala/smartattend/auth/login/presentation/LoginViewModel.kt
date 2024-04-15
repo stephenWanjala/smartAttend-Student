@@ -2,19 +2,33 @@ package com.github.stephenwanjala.smartattend.auth.login.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.stephenwanjala.smartattend.auth.login.domain.model.AuthRequest
+import com.github.stephenwanjala.smartattend.auth.login.domain.model.AuthResponse
+import com.github.stephenwanjala.smartattend.auth.login.domain.repository.AuthRepository
+import com.github.stephenwanjala.smartattend.core.util.Resource
+import com.github.stephenwanjala.smartattend.core.util.UiText
+import com.github.stephenwanjala.smartattend.preferences.domain.SmartAttendPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-
+    private val authRepository: AuthRepository,
+    private val preferences: SmartAttendPreferences
 ) : ViewModel() {
     private val _state = MutableStateFlow(LoginUiState())
     val state = _state.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), LoginUiState())
+
+
+    init {
+        authenticate()
+    }
 
     fun onEvent(event: LoginEvent) {
 
@@ -60,8 +74,79 @@ class LoginViewModel @Inject constructor(
             }
 
             LoginEvent.Login -> {
+                _state.update { it.copy(isLoading = true) }
 
+                viewModelScope.launch {
+                    try {
+                        val result = authRepository.login(
+                            AuthRequest(
+                                reg_number = state.value.userName,
+                                password = state.value.password
+                            )
+                        )
+                        println("The Result is $result  ")
+                        result.collectLatest { resFlow ->
+                            when (resFlow) {
+                                is Resource.Error -> {
+
+                                    _state.update { it.copy(error = resFlow.uiText) }
+                                }
+
+                                is Resource.Loading -> {
+                                    _state.update { it.copy(isLoading = true) }
+                                    println("Loading In Vm")
+
+                                }
+
+                                is Resource.Success -> {
+                                    _state.update { it.copy(login = resFlow.data) }
+                                    println("We got Data")
+                                }
+                            }
+                            _state.update { it.copy(isLoading = false) }
+                        }
+                    } catch (e: Exception) {
+                        _state.update {
+                            it.copy(
+                                isLoading = false,
+                                error = UiText.DynamicString(e.localizedMessage ?: "Unknown Error ")
+                            )
+                        }
+
+                    }
+
+                }
             }
+        }
+    }
+
+
+    private fun authenticate() {
+        viewModelScope.launch {
+            _state.update { it.copy(isLoading = true) }
+            preferences.getToken().collectLatest { tkData ->
+                if (tkData != null && tkData.access.isNotBlank() && tkData.refresh.isNotBlank()) {
+                    _state.update {
+                        it.copy(
+                            login = AuthResponse(
+                                access = tkData.access,
+                                refresh = tkData.refresh,
+                                user_id = tkData.user_id,
+                                reg_number = tkData.reg_number
+                            ),
+                            isLoading = false
+                        )
+                    }
+                } else {
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            error = UiText.DynamicString("Please Login")
+                        )
+                    }
+                }
+            }
+            _state.update { it.copy(isLoading = false) }
         }
     }
 

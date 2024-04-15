@@ -10,7 +10,7 @@ import com.github.stephenwanjala.smartattend.auth.data.repositoryImpl.AuthReposi
 import com.github.stephenwanjala.smartattend.auth.login.domain.repository.AuthRepository
 import com.github.stephenwanjala.smartattend.preferences.data.SmartAttendPreferencesImpl
 import com.github.stephenwanjala.smartattend.preferences.domain.SmartAttendPreferences
-import com.github.stephenwanjala.smartattend.preferences.domain.SmartAttendPreferences.Companion.SMART_ATTENT_PREFERENCES_NAME
+import com.github.stephenwanjala.smartattend.preferences.domain.SmartAttendPreferences.Companion.SMART_ATTEND_PREFERENCES_NAME
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -61,7 +61,7 @@ object AppModule {
     fun provideDataPreferences(app: Application): DataStore<Preferences> =
         PreferenceDataStoreFactory.create(
             produceFile = {
-                app.preferencesDataStoreFile(SMART_ATTENT_PREFERENCES_NAME)
+                app.preferencesDataStoreFile(SMART_ATTEND_PREFERENCES_NAME)
             }
         )
 
