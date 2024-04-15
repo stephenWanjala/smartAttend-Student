@@ -9,11 +9,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.github.stephenwanjala.smartattend.auth.login.domain.model.AuthResponse
 import com.ramcosta.composedestinations.annotation.Destination
 
 @Destination
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    authResponse: AuthResponse
+) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -23,7 +26,7 @@ fun HomeScreen() {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Home Here")
+            Text(text = "Welcome ${authResponse.reg_number}!")
         }
     }
 }

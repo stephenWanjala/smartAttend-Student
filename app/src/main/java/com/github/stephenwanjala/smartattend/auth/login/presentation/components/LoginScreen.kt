@@ -58,7 +58,7 @@ fun LoginScreen(
             print("The state is $state\n")
             state.value.login?.let { authResponse ->
                 println("The AuthResponse is $authResponse\n")
-                navigator.navigate(HomeScreenDestination) {
+                navigator.navigate(HomeScreenDestination(authResponse)) {
                     popUpTo(LoginScreenDestination) {
                         inclusive = true
                     }
