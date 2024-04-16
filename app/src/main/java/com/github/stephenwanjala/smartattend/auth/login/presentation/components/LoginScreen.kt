@@ -30,15 +30,16 @@ import com.github.stephenwanjala.smartattend.auth.login.presentation.LoginEvent
 import com.github.stephenwanjala.smartattend.auth.login.presentation.LoginTextFields
 import com.github.stephenwanjala.smartattend.auth.login.presentation.LoginViewModel
 import com.github.stephenwanjala.smartattend.core.presentation.components.LoadingDialog
-import com.github.stephenwanjala.smartattend.destinations.ForgotPasswordScreenDestination
 import com.github.stephenwanjala.smartattend.destinations.HomeScreenDestination
 import com.github.stephenwanjala.smartattend.destinations.LoginScreenDestination
+import com.github.stephenwanjala.smartattend.home.presentation.AuthNavGraph
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.popUpTo
 
 @Composable
-@Destination(start = true)
+@AuthNavGraph(start = true)
+@Destination
 fun LoginScreen(
     navigator: DestinationsNavigator,
     viewModel: LoginViewModel = hiltViewModel()
@@ -106,12 +107,12 @@ fun LoginScreen(
                             LoginTextFields(
                                 buttonLabel = stringResource(id = R.string.sign_in),
                                 onForgetPassword = {
-                                    navigator.navigate(ForgotPasswordScreenDestination) {
-                                        popUpTo(LoginScreenDestination) {
-                                            inclusive = true
-
-                                        }
-                                    }
+//                                    navigator.navigate(ForgotPasswordScreenDestination) {
+//                                        popUpTo(LoginScreenDestination) {
+//                                            inclusive = true
+//
+//                                        }
+//                                    }
                                 },
                                 viewModel = viewModel,
                                 onClickLogin = {

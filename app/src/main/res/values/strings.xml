@@ -6,4 +6,7 @@
     <string name="sign_in">Sign In</string>
     <string name="forgot_password_text">Please Enter your Email, \nyou will receive a link to reset your password via email</string>
     <string name="forgot_password_">Forgot Password</string>
+    <string name="profile">Profile</string>
+    <string name="attendance_history">History</string>
+    <string name="schedule">Schedule</string>
 </resources>
