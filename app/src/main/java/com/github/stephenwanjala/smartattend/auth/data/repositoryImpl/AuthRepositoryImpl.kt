@@ -5,7 +5,6 @@ import com.github.stephenwanjala.smartattend.auth.login.domain.model.AuthRequest
 import com.github.stephenwanjala.smartattend.auth.login.domain.model.AuthResponse
 import com.github.stephenwanjala.smartattend.auth.login.domain.model.Token
 import com.github.stephenwanjala.smartattend.auth.login.domain.model.TokenData
-import com.github.stephenwanjala.smartattend.auth.login.domain.repository.AccessToken
 import com.github.stephenwanjala.smartattend.auth.login.domain.repository.AuthRepository
 import com.github.stephenwanjala.smartattend.core.util.Resource
 import com.github.stephenwanjala.smartattend.core.util.UiText
@@ -32,7 +31,10 @@ class AuthRepositoryImpl @Inject constructor(
                     access = response.access,
                     refresh = response.refresh,
                     user_id = response.user_id,
-                    reg_number = response.reg_number
+                    reg_number = response.reg_number,
+                    first_name = response.first_name,
+                    last_name = response.last_name,
+                    email = response.email
 
                 )
             )
@@ -105,41 +107,5 @@ class AuthRepositoryImpl @Inject constructor(
             )
         }
     }
-
-    override suspend fun refreshToken(refreshToken: String): Flow<Resource<AccessToken>> {
-        return flow {
-            emit(Resource.Loading())
-            try {
-                val response = authApi.refreshToken(refreshToken)
-                preferences.deleteToken()
-                preferences.saveAToken(
-                    TokenData(
-                        access = response,
-                        refresh = refreshToken,
-                        user_id = 0,
-                        reg_number = ""
-                    )
-                )
-                emit(Resource.Success(response))
-            } catch (e: Exception) {
-                emit(
-                    Resource.Error(
-                        uiText = UiText.DynamicString(
-                            e.localizedMessage ?: "Error Occurred"
-                        )
-                    )
-                )
-            }
-        }.catch { e ->
-            emit(
-                Resource.Error(
-                    uiText = UiText.DynamicString(
-                        e.localizedMessage ?: "Error Occurred"
-                    )
-                )
-            )
-        }
-    }
-
 
 }

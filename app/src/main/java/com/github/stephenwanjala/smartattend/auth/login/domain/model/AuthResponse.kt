@@ -8,9 +8,9 @@ data class AuthResponse(
     val access: String,
     val refresh: String,
     val user_id: Int,
-//    val email: String,
-//    val first_name: String,
-//    val last_name: String,
+    val email: String,
+    val first_name: String,
+    val last_name: String,
     val reg_number: String,
 ) : Parcelable
 
@@ -27,4 +27,7 @@ data class TokenData(
     val refresh: String,
     val user_id: Int,
     val reg_number: String,
+    val email: String,
+    val first_name: String,
+    val last_name: String
 ) : Parcelable

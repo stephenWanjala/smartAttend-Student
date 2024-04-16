@@ -132,7 +132,10 @@ class LoginViewModel @Inject constructor(
                                 access = tkData.access,
                                 refresh = tkData.refresh,
                                 user_id = tkData.user_id,
-                                reg_number = tkData.reg_number
+                                reg_number = tkData.reg_number,
+                                first_name = tkData.first_name,
+                                last_name = tkData.last_name,
+                                email = tkData.email
                             ),
                             isLoading = false
                         )

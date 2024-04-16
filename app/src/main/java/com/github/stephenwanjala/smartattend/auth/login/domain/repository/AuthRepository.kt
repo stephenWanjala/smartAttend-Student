@@ -13,7 +13,7 @@ interface AuthRepository {
 
     suspend fun logout(token: Token): Flow<Resource<Unit>>
     suspend fun tokenVerify(): Flow<Resource<TokenData>>
-    suspend fun refreshToken(refreshToken: String): Flow<Resource<AccessToken>>
+//    suspend fun refreshToken(refreshToken: String): Flow<Resource<AccessToken>>
 
 }
 

@@ -7,6 +7,9 @@ import androidx.datastore.preferences.core.edit
 import com.github.stephenwanjala.smartattend.auth.login.domain.model.TokenData
 import com.github.stephenwanjala.smartattend.preferences.domain.SmartAttendPreferences
 import com.github.stephenwanjala.smartattend.preferences.domain.SmartAttendPreferences.Companion.ACCESS_TOKEN
+import com.github.stephenwanjala.smartattend.preferences.domain.SmartAttendPreferences.Companion.EMAIL
+import com.github.stephenwanjala.smartattend.preferences.domain.SmartAttendPreferences.Companion.FIRST_NAME
+import com.github.stephenwanjala.smartattend.preferences.domain.SmartAttendPreferences.Companion.LAST_NAME
 import com.github.stephenwanjala.smartattend.preferences.domain.SmartAttendPreferences.Companion.REFRESH_TOKEN
 import com.github.stephenwanjala.smartattend.preferences.domain.SmartAttendPreferences.Companion.REG_NUMBER
 import com.github.stephenwanjala.smartattend.preferences.domain.SmartAttendPreferences.Companion.USER_ID
@@ -23,17 +26,23 @@ class SmartAttendPreferencesImpl(
                 access = preferences[ACCESS_TOKEN] ?: "",
                 refresh = preferences[REFRESH_TOKEN] ?: "",
                 user_id = preferences[USER_ID] ?: 0,
-                reg_number = preferences[REG_NUMBER] ?: ""
+                reg_number = preferences[REG_NUMBER] ?: "",
+                first_name = preferences[FIRST_NAME] ?: "",
+                last_name = preferences[LAST_NAME] ?: "",
+                email = preferences[EMAIL] ?: ""
             )
         }
     }
 
-    override suspend fun saveAToken(token: TokenData) {
+    override suspend fun saveAToken(tokenData: TokenData) {
         dataStore.edit { preferences ->
-            preferences[ACCESS_TOKEN] = token.access
-            preferences[REFRESH_TOKEN] = token.refresh
-            preferences[REG_NUMBER] = token.reg_number
-            preferences[USER_ID] = token.user_id
+            preferences[ACCESS_TOKEN] = tokenData.access
+            preferences[REFRESH_TOKEN] = tokenData.refresh
+            preferences[REG_NUMBER] = tokenData.reg_number
+            preferences[USER_ID] = tokenData.user_id
+            preferences[FIRST_NAME] = tokenData.first_name
+            preferences[LAST_NAME] = tokenData.last_name
+            preferences[EMAIL] = tokenData.email
         }
     }
 
@@ -43,6 +52,9 @@ class SmartAttendPreferencesImpl(
             preferences.remove(REFRESH_TOKEN)
             preferences.remove(REG_NUMBER)
             preferences.remove(USER_ID)
+            preferences.remove(FIRST_NAME)
+            preferences.remove(LAST_NAME)
+            preferences.remove(EMAIL)
         }
     }
 }

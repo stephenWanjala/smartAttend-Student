@@ -15,6 +15,9 @@ interface SmartAttendPreferences {
         val REFRESH_TOKEN = stringPreferencesKey("refresh_token")
         val REG_NUMBER = stringPreferencesKey("reg_number")
         val USER_ID = intPreferencesKey("user_id")
+        val FIRST_NAME = stringPreferencesKey("first_name")
+        val LAST_NAME = stringPreferencesKey("last_name")
+        val EMAIL = stringPreferencesKey("email")
         const val SMART_ATTEND_PREFERENCES_NAME = "smart_attend_preferences"
     }
 }
