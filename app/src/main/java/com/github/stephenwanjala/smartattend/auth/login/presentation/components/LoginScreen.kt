@@ -33,12 +33,14 @@ import com.github.stephenwanjala.smartattend.core.presentation.components.Loadin
 import com.github.stephenwanjala.smartattend.destinations.ForgotPasswordScreenDestination
 import com.github.stephenwanjala.smartattend.destinations.HomeScreenDestination
 import com.github.stephenwanjala.smartattend.destinations.LoginScreenDestination
+import com.github.stephenwanjala.smartattend.home.presentation.AuthNavGraph
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.popUpTo
 
 @Composable
-@Destination(start = true)
+@AuthNavGraph(start = true)
+@Destination
 fun LoginScreen(
     navigator: DestinationsNavigator,
     viewModel: LoginViewModel = hiltViewModel()
