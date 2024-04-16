@@ -26,7 +26,7 @@ fun HomeScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Welcome ${authResponse.reg_number}!")
+            Text(text = "Welcome ${authResponse.first_name} ${authResponse.last_name}!")
         }
     }
 }
