@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -133,7 +134,7 @@ internal fun LocationPermissionScreen(
                         "Getting your exact location is important for this app. " +
                                 "Please grant us fine location. Thank you"
                     } else {
-                        "To Geofence Needs Location Permission. Allow in Settings"
+                        "Grant Location To join Classes."
                     }
 
                     val buttonText = if (!allPermissionsRevoked) {
@@ -145,7 +146,12 @@ internal fun LocationPermissionScreen(
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(8.dp)
+                            .padding(8.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.errorContainer,
+                            contentColor = MaterialTheme.colorScheme.onErrorContainer,
+                        )
+
                     ) {
                         Text(
                             modifier = Modifier.padding(8.dp),
