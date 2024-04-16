@@ -120,3 +120,12 @@ dependencies {
 
 
 }
+
+
+tasks {
+    register("getVersionName") {
+        doLast {
+            println(android.defaultConfig.versionName)
+        }
+    }
+}
