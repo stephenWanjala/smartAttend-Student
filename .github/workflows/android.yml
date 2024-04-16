@@ -14,15 +14,29 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2.4.0
+
       - name: Setup JDK
         uses: actions/setup-java@v2.5.1
         with:
           distribution: temurin
           java-version: "17"
+
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v4.0.2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
       - name: Set execution flag for gradlew
         run: chmod +x gradlew
+
       - name: Build APK
         run: bash ./gradlew assembleDebug --stacktrace
+
       - name: Upload APK
         uses: actions/upload-artifact@v1
         with:
@@ -38,6 +52,7 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: apk
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -46,6 +61,7 @@ jobs:
         with:
           tag_name: ${{ github.run_number }}
           release_name: ${{ github.event.repository.name }}
+
       - name: Upload Release APK
         id: upload_release_asset
         uses: actions/upload-release-asset@v1.0.2
