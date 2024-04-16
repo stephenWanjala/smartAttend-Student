@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.github.stephenwanjala.smartattend.auth.login.domain.model.AuthResponse
+import com.github.stephenwanjala.smartattend.location.presentation.components.LocationPermissionWrapper
 import com.ramcosta.composedestinations.annotation.Destination
 
 @Destination
@@ -17,16 +18,18 @@ import com.ramcosta.composedestinations.annotation.Destination
 fun HomeScreen(
     authResponse: AuthResponse
 ) {
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
-    ) {
-        Column(
+    LocationPermissionWrapper {
+        Surface(
             modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+            color = MaterialTheme.colorScheme.background
         ) {
-            Text(text = "Welcome ${authResponse.first_name} ${authResponse.last_name}!")
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(text = "Welcome ${authResponse.first_name} ${authResponse.last_name}!")
+            }
         }
     }
 }
