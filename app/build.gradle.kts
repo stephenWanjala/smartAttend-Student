@@ -105,7 +105,6 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
     implementation(libs.gson)
-    implementation(libs.accompanist.permissions.v0251)
 
     //    datastore
     implementation(libs.androidx.datastore.preferences)
