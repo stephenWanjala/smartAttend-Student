@@ -25,7 +25,6 @@ import com.github.stephenwanjala.smartattend.destinations.Destination
 import com.github.stephenwanjala.smartattend.destinations.ProfileScreenDestination
 import com.github.stephenwanjala.smartattend.destinations.SchedulesScreenDestination
 import com.github.stephenwanjala.smartattend.startAppDestination
-import com.ramcosta.composedestinations.navigation.navigate
 import com.ramcosta.composedestinations.spec.DirectionDestinationSpec
 
 enum class BottomBarDestination(
@@ -70,6 +69,7 @@ fun BottomBar(
                 onClick = {
                     navController.navigate(destination.direction, fun NavOptionsBuilder.() {
                         launchSingleTop = true
+                        restoreState = true
                     })
                 },
                 icon = {
