@@ -1,4 +1,4 @@
-package com.github.stephenwanjala.smartattend.home
+package com.github.stephenwanjala.smartattend.home.schedule.presentation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,16 +10,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import com.github.stephenwanjala.smartattend.home.presentation.HomeNavGraph
+import com.github.stephenwanjala.smartattend.location.presentation.components.LocationPermissionWrapper
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
-@HomeNavGraph(start = true)
 @Destination
 fun SchedulesScreen(
     navigator: DestinationsNavigator
 ) {
+    LocationPermissionWrapper {
         Surface(
             color = MaterialTheme.colorScheme.background,
             modifier = Modifier.fillMaxSize()
@@ -35,4 +35,5 @@ fun SchedulesScreen(
                 )
             }
         }
+    }
 }

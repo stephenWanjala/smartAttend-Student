@@ -2,6 +2,7 @@ package com.github.stephenwanjala.smartattend.auth.data.network
 
 import com.github.stephenwanjala.smartattend.auth.login.domain.model.AuthRequest
 import com.github.stephenwanjala.smartattend.auth.login.domain.model.AuthResponse
+import com.github.stephenwanjala.smartattend.auth.login.domain.model.LogoutRequest
 import com.github.stephenwanjala.smartattend.auth.login.domain.repository.AccessToken
 import retrofit2.Response
 import retrofit2.http.Body
@@ -21,9 +22,9 @@ interface AuthApi {
 
     @POST("auth/logout/")
     suspend fun logout(
-        @Body refreshToken: String,
+        @Body logoutRequest: LogoutRequest,
         @Header("Authorization") accessToken: String
-    )
+    ):Response<Unit>
 
     @POST("auth/login/verify/")
     suspend fun verify(
