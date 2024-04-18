@@ -35,12 +35,11 @@ import com.github.stephenwanjala.smartattend.R
 import com.github.stephenwanjala.smartattend.core.presentation.components.AButton
 import com.github.stephenwanjala.smartattend.core.presentation.components.IConWithText
 import com.github.stephenwanjala.smartattend.core.presentation.components.InputTextField
-import com.github.stephenwanjala.smartattend.home.presentation.AuthNavGraph
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.launch
 
-@AuthNavGraph
+
 @Destination
 @Composable
 fun ForgotPasswordScreen(

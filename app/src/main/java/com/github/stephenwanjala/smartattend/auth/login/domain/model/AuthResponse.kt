@@ -31,3 +31,8 @@ data class TokenData(
     val first_name: String,
     val last_name: String
 ) : Parcelable
+
+@Parcelize
+data class LogoutRequest(
+    val refresh_token: String,
+) : Parcelable

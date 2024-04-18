@@ -31,15 +31,15 @@ import com.github.stephenwanjala.smartattend.auth.login.presentation.LoginTextFi
 import com.github.stephenwanjala.smartattend.auth.login.presentation.LoginViewModel
 import com.github.stephenwanjala.smartattend.core.presentation.components.LoadingDialog
 import com.github.stephenwanjala.smartattend.destinations.ForgotPasswordScreenDestination
-import com.github.stephenwanjala.smartattend.destinations.HomeScreenDestination
 import com.github.stephenwanjala.smartattend.destinations.LoginScreenDestination
-import com.github.stephenwanjala.smartattend.home.presentation.AuthNavGraph
+import com.github.stephenwanjala.smartattend.destinations.SchedulesScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.popUpTo
 
 @Composable
-@AuthNavGraph(start = true)
+@RootNavGraph(start = true)
 @Destination
 fun LoginScreen(
     navigator: DestinationsNavigator,
@@ -60,7 +60,7 @@ fun LoginScreen(
             print("The state is $state\n")
             state.value.login?.let { authResponse ->
                 println("The AuthResponse is $authResponse\n")
-                navigator.navigate(HomeScreenDestination(authResponse)) {
+                navigator.navigate(SchedulesScreenDestination) {
                     popUpTo(LoginScreenDestination) {
                         inclusive = true
                     }

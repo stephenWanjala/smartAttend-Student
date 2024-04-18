@@ -3,6 +3,7 @@ package com.github.stephenwanjala.smartattend.auth.data.repositoryImpl
 import com.github.stephenwanjala.smartattend.auth.data.network.AuthApi
 import com.github.stephenwanjala.smartattend.auth.login.domain.model.AuthRequest
 import com.github.stephenwanjala.smartattend.auth.login.domain.model.AuthResponse
+import com.github.stephenwanjala.smartattend.auth.login.domain.model.LogoutRequest
 import com.github.stephenwanjala.smartattend.auth.login.domain.model.Token
 import com.github.stephenwanjala.smartattend.auth.login.domain.model.TokenData
 import com.github.stephenwanjala.smartattend.auth.login.domain.repository.AuthRepository
@@ -55,9 +56,23 @@ class AuthRepositoryImpl @Inject constructor(
         return flow {
             emit(Resource.Loading())
 
-            authApi.logout(token.refresh, token.access)
-            preferences.deleteToken()
-            emit(Resource.Success(Unit))
+            val response=authApi.logout(
+                accessToken = "Bearer " + token.access,
+                logoutRequest = LogoutRequest(refresh_token = token.refresh),
+            )
+            if (response.isSuccessful && response.code() == 205) {
+                preferences.deleteToken()
+                emit(Resource.Success(Unit))
+            } else {
+                emit(
+                    Resource.Error(
+                        uiText = UiText.DynamicString(
+                            response.errorBody()?.string() ?: "Error Occurred"
+                        )
+                    )
+                )
+            }
+
 
         }.catch { e ->
             emit(
