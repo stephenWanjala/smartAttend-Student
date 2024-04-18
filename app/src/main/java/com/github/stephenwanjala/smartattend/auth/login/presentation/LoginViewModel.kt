@@ -84,7 +84,6 @@ class LoginViewModel @Inject constructor(
                                 password = state.value.password
                             )
                         )
-                        println("The Result is $result  ")
                         result.collectLatest { resFlow ->
                             when (resFlow) {
                                 is Resource.Error -> {
