@@ -2,7 +2,7 @@
 accompanistPermissions = "0.30.1"
 agp = "8.5.0-alpha05"
 androidx-hiltCompiler = "1.2.0"
-converterGson = "2.9.0"
+converterGson = "2.11.0"
 coreSplashscreen = "1.0.1"
 
 coroutinesVersion = "1.7.3"
