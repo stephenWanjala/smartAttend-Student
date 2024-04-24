@@ -38,6 +38,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+    @OptIn(ExperimentalMaterialNavigationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -86,7 +87,7 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 ) { paddingVallues ->
-                    val paddingVallues = paddingVallues.calculateBottomPadding()
+                    val paddings = paddingVallues.calculateBottomPadding()
                     Surface(
                         modifier = Modifier
                             .fillMaxSize(),
