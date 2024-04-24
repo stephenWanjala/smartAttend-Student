@@ -34,15 +34,15 @@ class SmartAttendPreferencesImpl(
         }
     }
 
-    override suspend fun saveAToken(tokenData: TokenData) {
+    override suspend fun saveAToken(token: TokenData) {
         dataStore.edit { preferences ->
-            preferences[ACCESS_TOKEN] = tokenData.access
-            preferences[REFRESH_TOKEN] = tokenData.refresh
-            preferences[REG_NUMBER] = tokenData.reg_number
-            preferences[USER_ID] = tokenData.user_id
-            preferences[FIRST_NAME] = tokenData.first_name
-            preferences[LAST_NAME] = tokenData.last_name
-            preferences[EMAIL] = tokenData.email
+            preferences[ACCESS_TOKEN] = token.access
+            preferences[REFRESH_TOKEN] = token.refresh
+            preferences[REG_NUMBER] = token.reg_number
+            preferences[USER_ID] = token.user_id
+            preferences[FIRST_NAME] = token.first_name
+            preferences[LAST_NAME] = token.last_name
+            preferences[EMAIL] = token.email
         }
     }
 
