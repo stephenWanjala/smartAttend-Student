@@ -61,9 +61,12 @@ fun SchedulesScreen(
                     SnackbarHost(hostState = snackbarHostState)
                 }
             ) { paddingValues ->
-                Box(modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)){
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues),
+                    contentAlignment = Alignment.Center
+                ) {
                     Column(
                         modifier = Modifier
                             .fillMaxSize(),
@@ -72,7 +75,7 @@ fun SchedulesScreen(
                     ) {
                         LazyColumn(modifier = Modifier.fillMaxSize()) {
                             items(state.schedules) { schedule ->
-                                ScheduleItem(schedule = schedule,onClick = {
+                                ScheduleItem(schedule = schedule, onClick = {
 
                                 })
                             }
@@ -81,7 +84,7 @@ fun SchedulesScreen(
                     }
 
                     AnimatedVisibility(visible = state.isLoading) {
-                        LoadingDialog()
+                        LoadingDialog(modifier = Modifier.align(Alignment.Center))
                     }
                 }
 
@@ -98,11 +101,15 @@ fun SchedulesScreen(
 }
 
 @Composable
-fun ScheduleItem(schedule: LectureScheduleItem, modifier: Modifier = Modifier,
-                 onClick: (LectureScheduleItem) -> Unit) {
-    OutlinedCard(onClick ={onClick(schedule)}, modifier = modifier
-        .fillMaxWidth()
-        .padding(8.dp)) {
+fun ScheduleItem(
+    schedule: LectureScheduleItem, modifier: Modifier = Modifier,
+    onClick: (LectureScheduleItem) -> Unit
+) {
+    OutlinedCard(
+        onClick = { onClick(schedule) }, modifier = modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+    ) {
         Column(
             modifier = Modifier.padding(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -111,7 +118,10 @@ fun ScheduleItem(schedule: LectureScheduleItem, modifier: Modifier = Modifier,
             Text(text = "Unit: ${schedule.unit.unit_code} - ${schedule.unit.unit_name}")
             Text(text = "Venue: ${schedule.lecture_hall.name}")
             Text(text = "Lecturer: ${schedule.lecturer.fullName}")
-            Text(text = "Scheduled on Date: ${schedule.date}", modifier = Modifier.align(Alignment.End))
+            Text(
+                text = "Scheduled on Date: ${schedule.date}",
+                modifier = Modifier.align(Alignment.End)
+            )
 
         }
     }
