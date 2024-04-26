@@ -56,15 +56,15 @@ data class LectureScheduleItem(
                 else -> "Unknown"
             }
         }
-   val statusColor: StatusColor
+ val statusColor: StatusColor
     @Composable
     @RequiresApi(Build.VERSION_CODES.O)
     get() {
         return when (status) {
-            "Upcoming" -> StatusColor(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.onPrimary)
-            "Ongoing" -> StatusColor(MaterialTheme.colorScheme.secondary, MaterialTheme.colorScheme.onSecondary)
-            "Completed" -> StatusColor(MaterialTheme.colorScheme.tertiary, MaterialTheme.colorScheme.onTertiary)
-            "Missed" -> StatusColor(MaterialTheme.colorScheme.error, MaterialTheme.colorScheme.onError)
+            "Upcoming" -> StatusColor(Color(0xFFFFC107), Color.Black) // Yellowish color
+            "Ongoing" -> StatusColor(Color(0xFF4CAF50), Color.White) // Same color as completed
+            "Completed" -> StatusColor(Color(0xFF4CAF50), Color.White) // Success color (Green)
+            "Missed" -> StatusColor(Color(0xFFF44336),MaterialTheme.colorScheme.onError) // Redish color
             else -> StatusColor(MaterialTheme.colorScheme.background, MaterialTheme.colorScheme.onBackground)
         }
     }
