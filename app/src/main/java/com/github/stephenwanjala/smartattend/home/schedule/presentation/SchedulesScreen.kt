@@ -32,6 +32,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.github.stephenwanjala.smartattend.core.presentation.components.LoadingDialog
+import com.github.stephenwanjala.smartattend.destinations.SingleScheduleDialogDestination
 import com.github.stephenwanjala.smartattend.home.schedule.domain.model.LectureScheduleItem
 import com.github.stephenwanjala.smartattend.location.presentation.components.LocationPermissionWrapper
 import com.ramcosta.composedestinations.annotation.Destination
@@ -81,7 +82,7 @@ fun SchedulesScreen(
                         LazyColumn(modifier = Modifier.fillMaxSize()) {
                             items(state.schedules) { schedule ->
                                 ScheduleItem(schedule = schedule, onClick = {
-
+                                    navigator.navigate(SingleScheduleDialogDestination(schedule))
                                 })
                             }
 

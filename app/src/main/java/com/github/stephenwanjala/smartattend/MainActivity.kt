@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.github.stephenwanjala.smartattend.destinations.SingleScheduleDialogDestination
 import com.github.stephenwanjala.smartattend.home.BottomBar
 import com.github.stephenwanjala.smartattend.home.BottomBarDestination
 import com.github.stephenwanjala.smartattend.ui.theme.SmartAttendTheme
@@ -77,7 +78,8 @@ class MainActivity : ComponentActivity() {
                 val showBottomBar = currentDestination?.route in listOf(
                     BottomBarDestination.SCHEDULE.direction.route,
                     BottomBarDestination.ATTENDANCE_HISTORY.direction.route,
-                    BottomBarDestination.PROFILE.direction.route
+                    BottomBarDestination.PROFILE.direction.route,
+                    SingleScheduleDialogDestination.route
                 )
 
                 Scaffold(
