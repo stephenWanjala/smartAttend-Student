@@ -8,6 +8,8 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import com.github.stephenwanjala.smartattend.auth.data.network.AuthApi
 import com.github.stephenwanjala.smartattend.auth.data.repositoryImpl.AuthRepositoryImpl
 import com.github.stephenwanjala.smartattend.auth.login.domain.repository.AuthRepository
+import com.github.stephenwanjala.smartattend.home.schedule.data.repositoryImpl.ScheduleRepositoryImpl
+import com.github.stephenwanjala.smartattend.home.schedule.domain.repository.ScheduleRepository
 import com.github.stephenwanjala.smartattend.preferences.data.SmartAttendPreferencesImpl
 import com.github.stephenwanjala.smartattend.preferences.domain.SmartAttendPreferences
 import com.github.stephenwanjala.smartattend.preferences.domain.SmartAttendPreferences.Companion.SMART_ATTEND_PREFERENCES_NAME
@@ -76,6 +78,13 @@ object AppModule {
         authApi: AuthApi,
         preferences: SmartAttendPreferences
     ): AuthRepository = AuthRepositoryImpl(authApi = authApi, preferences = preferences)
+
+
+    @Singleton
+    @Provides
+    fun provideScheduleRepository(
+        authApi: AuthApi
+    ): ScheduleRepository = ScheduleRepositoryImpl(authApi = authApi)
 
 
 }
