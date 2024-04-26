@@ -1,5 +1,7 @@
 package com.github.stephenwanjala.smartattend.home.schedule.presentation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -33,6 +37,7 @@ import com.github.stephenwanjala.smartattend.location.presentation.components.Lo
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Destination
@@ -100,29 +105,40 @@ fun SchedulesScreen(
 
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ScheduleItem(
     schedule: LectureScheduleItem, modifier: Modifier = Modifier,
     onClick: (LectureScheduleItem) -> Unit
 ) {
-    OutlinedCard(
-        onClick = { onClick(schedule) }, modifier = modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-    ) {
-        Column(
-            modifier = Modifier.padding(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+    BadgedBox(badge = {
+        Badge(
+            containerColor = schedule.statusColor.container,
+            contentColor = schedule.statusColor.contentColor
         ) {
+            Text(text = schedule.status,)
+        }
+    }, modifier = modifier.padding(8.dp)) {
 
-            Text(text = "Unit: ${schedule.unit.unit_code} - ${schedule.unit.unit_name}")
-            Text(text = "Venue: ${schedule.lecture_hall.name}")
-            Text(text = "Lecturer: ${schedule.lecturer.fullName}")
-            Text(
-                text = "Scheduled on Date: ${schedule.date}",
-                modifier = Modifier.align(Alignment.End)
-            )
+        OutlinedCard(
+            onClick = { onClick(schedule) }, modifier = modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+        ) {
+            Column(
+                modifier = Modifier.padding(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
 
+                Text(text = "Unit: ${schedule.unit.unit_code} - ${schedule.unit.unit_name}")
+                Text(text = "Venue: ${schedule.lecture_hall.name}")
+                Text(text = "Lecturer: ${schedule.lecturer.fullName}")
+                Text(
+                    text = "Scheduled on Date: ${schedule.date}",
+                    modifier = Modifier.align(Alignment.End)
+                )
+
+            }
         }
     }
 }
