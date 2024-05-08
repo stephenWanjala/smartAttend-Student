@@ -5,7 +5,7 @@ androidx-hiltCompiler = "1.2.0"
 converterGson = "2.9.0"
 coreSplashscreen = "1.0.1"
 
-coroutinesVersion = "1.7.3"
+coroutinesVersion = "1.8.0"
 datastorePreferences = "1.1.1"
 destinationsVersion = "1.9.62"
 gson = "2.10.1"
