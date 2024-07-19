@@ -23,7 +23,7 @@ lifecycleVersion = "2.7.0"
 loggingInterceptor = "5.0.0-alpha.12"
 materialIconsCore = "1.6.8"
 navVersion = "2.7.7"
-playServicesLocation = "21.1.0"
+playServicesLocation = "21.3.0"
 retrofit = "2.9.0"
 
 
